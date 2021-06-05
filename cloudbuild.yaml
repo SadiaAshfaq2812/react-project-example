@@ -1,0 +1,20 @@
+steps:
+
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/thesisproject1859/react-project-example', '.']
+
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/thesisproject1859/react-project-example']
+
+# build step to echo "Hello, world!"
+- name: 'gcr.io/thesisproject1859/react-project-example'
+  args: ['run', 'deploy', 'nginx', '--image', 'gcr.io/thesisproject1859/react-project-example', '--region', 'us-central1', '--platform', 'managed']
+  # args: ['run', '--image', 'gcr.io/thesisproject1859/react-project-example']
+  # wait_for: ['latest']
+
+# # Deploy container image to Cloud Run
+# - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#   entrypoint: gcloud
+#   args: ['run', '--image', 'gcr.io/thesisproject1859/react', '--region', 'us-central1', '--platform', 'managed']
